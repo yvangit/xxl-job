@@ -36,7 +36,6 @@ import java.util.*;
 @Service
 public class XxlJobServiceImpl implements IXxlJobService {
 	private static Logger logger = LoggerFactory.getLogger(XxlJobServiceImpl.class);
-
 	@Resource
 	private IXxlJobGroupDao xxlJobGroupDao;
 	@Resource
@@ -48,10 +47,14 @@ public class XxlJobServiceImpl implements IXxlJobService {
 	
 	@Override
 	public Map<String, Object> pageList(int start, int length, int jobGroup, String executorHandler, String filterTime) {
+		return pageList(start, length,jobGroup,executorHandler,null, filterTime);
+	}
 
+	@Override
+	public Map<String, Object> pageList(int start, int length, int jobGroup, String executorHandler,String jobDesc, String filterTime) {
 		// page list
-		List<XxlJobInfo> list = xxlJobInfoDao.pageList(start, length, jobGroup, executorHandler);
-		int list_count = xxlJobInfoDao.pageListCount(start, length, jobGroup, executorHandler);
+		List<XxlJobInfo> list = xxlJobInfoDao.pageList(start, length, jobGroup, executorHandler,jobDesc);
+		int list_count = xxlJobInfoDao.pageListCount(start, length, jobGroup, executorHandler,jobDesc);
 		
 		// fill job info
 		if (list!=null && list.size()>0) {
@@ -67,7 +70,7 @@ public class XxlJobServiceImpl implements IXxlJobService {
 	    maps.put("data", list);  					// 分页列表
 		return maps;
 	}
-
+	
 	@Override
 	public ReturnT<String> add(XxlJobInfo jobInfo) {
 		// valid
@@ -331,7 +334,7 @@ public class XxlJobServiceImpl implements IXxlJobService {
 				String day = String.valueOf(item.get("triggerDay"));
 				int dayAllCount = Integer.valueOf(String.valueOf(item.get("triggerCount")));
 				int daySucCount = 0;
-				int dayFailCount = dayAllCount - daySucCount;
+				int dayFailCount = 0;
 
 				if (CollectionUtils.isNotEmpty(triggerCountMapSuc)) {
 					for (Map<String, Object> sucItem: triggerCountMapSuc) {
@@ -339,6 +342,7 @@ public class XxlJobServiceImpl implements IXxlJobService {
 						if (day.equals(daySuc)) {
 							daySucCount = Integer.valueOf(String.valueOf(sucItem.get("triggerCount")));
 							dayFailCount = dayAllCount - daySucCount;
+							break;
 						}
 					}
 				}
@@ -365,5 +369,20 @@ public class XxlJobServiceImpl implements IXxlJobService {
 		result.put("triggerCountFailTotal", triggerCountFailTotal);
 		return new ReturnT<Map<String, Object>>(result);
 	}
-
+	/**
+	 * 根据handler和报警id获取job信息
+	 * @param jobInfo
+	 * @return
+	 */
+	public XxlJobInfo loadByParameter(XxlJobInfo jobInfo){
+		if(jobInfo.getId()>0){
+			jobInfo=xxlJobInfoDao.loadById(jobInfo.getId());
+		}else{
+			jobInfo=xxlJobInfoDao.loadByParameter(jobInfo);
+		}
+		if(jobInfo!=null){
+			XxlJobDynamicScheduler.fillJobInfo(jobInfo);
+		}
+		return jobInfo;
+	}
 }

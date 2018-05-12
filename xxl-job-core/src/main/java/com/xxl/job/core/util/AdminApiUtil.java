@@ -26,7 +26,14 @@ public class AdminApiUtil {
 
 	public static final String CALLBACK = "/api/callback";
 	public static final String REGISTRY = "/api/registry";
-
+	
+	public static final String JOB_UPDATE = "/api/updatejob";
+	public static final String JOB_INFO = "/api/jobinfo";
+	public static final String JOB_DELETE = "/api/jobdelete";
+	public static final String JOB_START = "/api/jobstart";
+	public static final String JOB_STOP = "/api/jobstop";
+	
+	
 	private static List<String> adminAddressList = null;
 	public static void init(String adminAddresses){
 		// admin assress list
@@ -67,6 +74,7 @@ public class AdminApiUtil {
 	}
 
 	public static ReturnT<String> callApi(String finalUrl, Object requestObj) throws Exception {
+		logger.info("finalUrl="+finalUrl+"   ============requestObj="+JacksonUtil.writeValueAsString(requestObj));
 		HttpPost httpPost = new HttpPost(finalUrl);
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		try {

@@ -61,6 +61,9 @@
 			<if test="executorHandler != null and executorHandler != ''">
 				AND t.executor_handler like CONCAT(CONCAT('%', #{executorHandler}), '%')
 			</if>
+			<if test="jobDesc != null and jobDesc != ''">
+				AND t.job_desc like CONCAT(CONCAT('%', #{jobDesc}), '%')
+			</if>
 		</trim>
 		ORDER BY id DESC
 		LIMIT #{offset}, #{pagesize}
@@ -128,6 +131,14 @@
 		FROM XXL_JOB_QRTZ_TRIGGER_INFO AS t
 		WHERE t.id = #{id}
 	</select>
+	
+	<select id="loadByParameter" parameterType="com.xxl.job.admin.core.model.XxlJobInfo" resultMap="XxlJobInfo">
+		SELECT <include refid="Base_Column_List" />
+		FROM XXL_JOB_QRTZ_TRIGGER_INFO AS t
+		WHERE t.executor_param = #{executorParam}
+		and t.executor_handler=#{executorHandler}
+	</select>
+	
 	
 	<update id="update" parameterType="com.xxl.job.admin.core.model.XxlJobInfo" >
 		UPDATE XXL_JOB_QRTZ_TRIGGER_INFO

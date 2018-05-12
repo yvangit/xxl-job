@@ -21,26 +21,30 @@ public class XxlJobInfoDaoImpl implements IXxlJobInfoDao {
 
 	@Override
 	public List<XxlJobInfo> pageList(int offset, int pagesize, int jobGroup, String executorHandler) {
+		return pageList(offset, pagesize, jobGroup, executorHandler, null);
+	}
+	public List<XxlJobInfo> pageList(int offset, int pagesize, int jobGroup, String executorHandler,String jobDesc) {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("offset", offset);
 		params.put("pagesize", pagesize);
 		params.put("jobGroup", jobGroup);
 		params.put("executorHandler", executorHandler);
-		
+		params.put("jobDesc", jobDesc);
 		return sqlSessionTemplate.selectList("XxlJobInfoMapper.pageList", params);
 	}
-
 	@Override
 	public int pageListCount(int offset, int pagesize, int jobGroup, String executorHandler) {
+		return pageListCount(offset, pagesize, jobGroup, executorHandler, null);
+	}
+	public int pageListCount(int offset, int pagesize, int jobGroup, String executorHandler,String jobDesc) {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("offset", offset);
 		params.put("pagesize", pagesize);
 		params.put("jobGroup", jobGroup);
 		params.put("executorHandler", executorHandler);
-		
+		params.put("jobDesc", jobDesc);
 		return sqlSessionTemplate.selectOne("XxlJobInfoMapper.pageListCount", params);
 	}
-
 	@Override
 	public int save(XxlJobInfo info) {
 		return sqlSessionTemplate.insert("XxlJobInfoMapper.save", info);
@@ -50,7 +54,10 @@ public class XxlJobInfoDaoImpl implements IXxlJobInfoDao {
 	public XxlJobInfo loadById(int id) {
 		return sqlSessionTemplate.selectOne("XxlJobInfoMapper.loadById", id);
 	}
-
+	public XxlJobInfo loadByParameter(XxlJobInfo jobInfo) {
+		return sqlSessionTemplate.selectOne("XxlJobInfoMapper.loadByParameter", jobInfo);
+	}
+	
 	@Override
 	public int update(XxlJobInfo item) {
 		return sqlSessionTemplate.update("XxlJobInfoMapper.update", item);

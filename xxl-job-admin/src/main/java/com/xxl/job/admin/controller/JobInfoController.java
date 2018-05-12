@@ -34,13 +34,11 @@ public class JobInfoController {
 	
 	@RequestMapping
 	public String index(Model model) {
-
 		// 枚举-字典
 		model.addAttribute("ExecutorRouteStrategyEnum", ExecutorRouteStrategyEnum.values());	// 路由策略-列表
 		model.addAttribute("GlueTypeEnum", GlueTypeEnum.values());								// Glue类型-字典
 		model.addAttribute("ExecutorBlockStrategyEnum", ExecutorBlockStrategyEnum.values());	// 阻塞处理策略-字典
 		model.addAttribute("ExecutorFailStrategyEnum", ExecutorFailStrategyEnum.values());		// 失败处理策略-字典
-
 		// 任务组
 		List<XxlJobGroup> jobGroupList =  xxlJobGroupDao.findAll();
 		model.addAttribute("JobGroupList", jobGroupList);
@@ -51,9 +49,8 @@ public class JobInfoController {
 	@ResponseBody
 	public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") int start,  
 			@RequestParam(required = false, defaultValue = "10") int length,
-			int jobGroup, String executorHandler, String filterTime) {
-		
-		return xxlJobService.pageList(start, length, jobGroup, executorHandler, filterTime);
+			int jobGroup, String executorHandler,  String jobDesc, String filterTime) {
+		return xxlJobService.pageList(start, length, jobGroup, executorHandler, jobDesc, filterTime);
 	}
 	
 	@RequestMapping("/add")

@@ -4,13 +4,18 @@ import com.xxl.job.admin.controller.annotation.PermessionLimit;
 import com.xxl.job.admin.core.model.XxlJobInfo;
 import com.xxl.job.admin.core.model.XxlJobLog;
 import com.xxl.job.admin.core.schedule.XxlJobDynamicScheduler;
+import com.xxl.job.admin.dao.IXxlJobGroupDao;
 import com.xxl.job.admin.dao.IXxlJobInfoDao;
 import com.xxl.job.admin.dao.IXxlJobLogDao;
 import com.xxl.job.admin.dao.IXxlJobRegistryDao;
+import com.xxl.job.admin.service.IXxlJobService;
 import com.xxl.job.core.biz.model.HandleCallbackParam;
 import com.xxl.job.core.biz.model.RegistryParam;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.util.AdminApiUtil;
+
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang.StringUtils;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
@@ -38,7 +43,12 @@ public class JobApiController {
     private IXxlJobInfoDao xxlJobInfoDao;
     @Resource
     private IXxlJobRegistryDao xxlJobRegistryDao;
-
+	@Resource
+	private IXxlJobGroupDao xxlJobGroupDao;
+	@Resource
+	private IXxlJobService xxlJobService;
+	
+	
 
     @RequestMapping(value= AdminApiUtil.CALLBACK, method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
@@ -118,5 +128,73 @@ public class JobApiController {
         }
         return ReturnT.SUCCESS;
     }
-
+    
+    
+    @RequestMapping(value=AdminApiUtil.JOB_UPDATE, method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    @PermessionLimit(limit=false)
+    public ReturnT<String> updatejob(@RequestBody XxlJobInfo jobInfo){
+    	XxlJobInfo oldjobInfo = this.xxlJobService.loadByParameter(jobInfo);
+        if (oldjobInfo == null) {
+        	return this.xxlJobService.add(jobInfo);
+        }
+        if ((oldjobInfo.getJobCron().equals(jobInfo.getJobCron())) && (oldjobInfo.getJobDesc().equals(jobInfo.getJobDesc()))) {
+        	return ReturnT.SUCCESS;
+        }
+        oldjobInfo.setJobCron(jobInfo.getJobCron());
+        oldjobInfo.setJobDesc(jobInfo.getJobDesc());
+        return this.xxlJobService.reschedule(oldjobInfo);
+    }
+    
+    @RequestMapping(value=AdminApiUtil.JOB_DELETE, method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    @PermessionLimit(limit=false)
+    public ReturnT<String> deletejob(@RequestBody XxlJobInfo jobInfo){
+    	XxlJobInfo oldjobInfo=xxlJobService.loadByParameter(jobInfo);
+    	if(oldjobInfo==null){
+    		return ReturnT.SUCCESS;
+    	}else{
+    		return xxlJobService.remove(oldjobInfo.getId());
+    	}
+    }
+    
+    
+    @RequestMapping(value=AdminApiUtil.JOB_INFO, method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    @PermessionLimit(limit=false)
+    public JSONObject jobinfo(@RequestBody XxlJobInfo jobInfo){
+    	jobInfo=xxlJobService.loadByParameter(jobInfo);
+    	JSONObject json=new JSONObject();
+    	if(jobInfo==null){
+    		json.put("msg","没有获取到Job信息");
+    		json.put("success",false);
+    	}else{
+    		json.put("success",true);
+    		json.put("jobinfo", jobInfo);
+    		json.put("msg","获取成功");
+    	}
+        return json;
+    }
+    @RequestMapping(value=AdminApiUtil.JOB_START, method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    @PermessionLimit(limit=false)
+    public ReturnT<String> sartjob(@RequestBody XxlJobInfo jobInfo){
+    	XxlJobInfo oldjobInfo=xxlJobService.loadByParameter(jobInfo);
+    	if(oldjobInfo==null){
+    		return ReturnT.SUCCESS;
+    	}else{
+    		return xxlJobService.resume(oldjobInfo.getId());
+    	}
+    }
+    @RequestMapping(value=AdminApiUtil.JOB_STOP, method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    @PermessionLimit(limit=false)
+    public ReturnT<String> stopjob(@RequestBody XxlJobInfo jobInfo){
+    	XxlJobInfo oldjobInfo=xxlJobService.loadByParameter(jobInfo);
+    	if(oldjobInfo==null){
+    		return ReturnT.SUCCESS;
+    	}else{
+    		return xxlJobService.pause(oldjobInfo.getId());
+    	}
+    }
 }

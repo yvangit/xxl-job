@@ -14,9 +14,19 @@
 		<module>xxl-job-core</module>
 		<module>xxl-job-admin</module>
 		<module>xxl-job-executor-example</module>
-        <module>xxl-job-executor-springboot-example</module>
     </modules>
-
+    
+	<distributionManagement>  
+      <repository>  
+        <id>maven-releases</id>  
+        <url>http://192.168.68.16:8081/nexus/content/repositories/releases/</url>  
+      </repository>  
+      <snapshotRepository>  
+        <id>maven-snapshots</id>  
+        <url>http://192.168.68.16:8081/nexus/content/repositories/snapshots/</url>  
+      </snapshotRepository>  
+    </distributionManagement>
+    
 	<build>
 		<plugins>
 			<plugin>
@@ -123,16 +133,6 @@
                     </plugin>
 				</plugins>
 			</build>
-			<distributionManagement>
-				<snapshotRepository>
-					<id>oss</id>
-					<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-				</snapshotRepository>
-				<repository>
-					<id>oss</id>
-					<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-				</repository>
-			</distributionManagement>
 		</profile>
 	</profiles>
 

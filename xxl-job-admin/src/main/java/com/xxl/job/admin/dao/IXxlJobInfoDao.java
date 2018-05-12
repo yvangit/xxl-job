@@ -12,11 +12,16 @@ import java.util.List;
 public interface IXxlJobInfoDao {
 
 	public List<XxlJobInfo> pageList(int offset, int pagesize, int jobGroup, String executorHandler);
+	public List<XxlJobInfo> pageList(int offset, int pagesize, int jobGroup, String executorHandler,String jobDesc);
+	
 	public int pageListCount(int offset, int pagesize, int jobGroup, String executorHandler);
+	public int pageListCount(int offset, int pagesize, int jobGroup, String executorHandler,String jobDesc);
 	
 	public int save(XxlJobInfo info);
 
 	public XxlJobInfo loadById(int id);
+	
+	public XxlJobInfo loadByParameter(XxlJobInfo jobInfo);
 	
 	public int update(XxlJobInfo item);
 	

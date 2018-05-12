@@ -27,12 +27,16 @@ public class DemoJobHandler extends IJobHandler {
 	@Override
 	public ReturnT<String> execute(String... params) throws Exception {
 		XxlJobLogger.log("XXL-JOB, Hello World.");
-		
 		for (int i = 0; i < 5; i++) {
 			XxlJobLogger.log("beat at:" + i);
 			TimeUnit.SECONDS.sleep(2);
 		}
-		return ReturnT.SUCCESS;
+		ReturnT r=new ReturnT();
+		r.setCode(200);
+		r.setContent("Yvan 测试！");
+		r.setMsg("执行成功！");
+		//return ReturnT.SUCCESS;
+		return r;
 	}
 	
 }

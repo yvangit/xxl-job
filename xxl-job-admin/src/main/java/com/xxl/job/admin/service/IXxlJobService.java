@@ -14,6 +14,7 @@ import java.util.Map;
 public interface IXxlJobService {
 	
 	public Map<String, Object> pageList(int start, int length, int jobGroup, String executorHandler, String filterTime);
+	public Map<String, Object> pageList(int start, int length, int jobGroup, String executorHandler,String jobDesc, String filterTime);
 	
 	public ReturnT<String> add(XxlJobInfo jobInfo);
 	
@@ -30,5 +31,10 @@ public interface IXxlJobService {
 	public Map<String,Object> dashboardInfo();
 
 	public ReturnT<Map<String,Object>> triggerChartDate();
-
+	/**
+	 * 根据handler和报警id获取job信息
+	 * @param jobInfo
+	 * @return
+	 */
+	public XxlJobInfo loadByParameter(XxlJobInfo jobInfo);
 }

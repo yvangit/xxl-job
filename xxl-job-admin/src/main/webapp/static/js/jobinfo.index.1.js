@@ -1,5 +1,6 @@
 $(function() {
 	// init date tables
+	
 	var jobTable = $("#job_list").dataTable({
 		"deferRender": true,
 		"processing" : true, 
@@ -11,6 +12,7 @@ $(function() {
 	        	var obj = {};
 	        	obj.jobGroup = $('#jobGroup').val();
 	        	obj.executorHandler = $('#executorHandler').val();
+	        	obj.jobDesc = $('#jobDesc').val();
 	        	obj.start = d.start;
 	        	obj.length = d.length;
                 return obj;
@@ -21,7 +23,7 @@ $(function() {
 	    //"scrollX": true,	// X轴滚动条，取消自适应
 	    "columns": [
 	                { "data": 'id', "bSortable": false, "visible" : false},
-	                { 
+	                {
 	                	"data": 'jobGroup', 
 	                	"visible" : false,
 	                	"render": function ( data, type, row ) {
@@ -249,7 +251,7 @@ $(function() {
         rules : {
 			jobDesc : {
 				required : true,
-				maxlength: 50
+				maxlength: 150
 			},
             jobCron : {
             	required : true
@@ -379,7 +381,7 @@ $(function() {
 		rules : {
 			jobDesc : {
 				required : true,
-				maxlength: 50
+				maxlength: 150
 			},
 			jobCron : {
 				required : true

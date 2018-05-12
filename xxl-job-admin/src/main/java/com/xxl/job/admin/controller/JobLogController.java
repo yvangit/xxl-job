@@ -1,5 +1,6 @@
 package com.xxl.job.admin.controller;
 
+import com.xxl.job.admin.controller.annotation.PermessionLimit;
 import com.xxl.job.admin.core.model.XxlJobGroup;
 import com.xxl.job.admin.core.model.XxlJobInfo;
 import com.xxl.job.admin.core.model.XxlJobLog;
@@ -41,6 +42,7 @@ public class JobLogController {
 	public IXxlJobLogDao xxlJobLogDao;
 
 	@RequestMapping
+	@PermessionLimit(limit=false)
 	public String index(Model model, @RequestParam(required = false, defaultValue = "0") Integer jobId) {
 
 		// 执行器列表
@@ -65,6 +67,7 @@ public class JobLogController {
 	
 	@RequestMapping("/pageList")
 	@ResponseBody
+	@PermessionLimit(limit=false)
 	public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") int start,  
 			@RequestParam(required = false, defaultValue = "10") int length,
 			int jobGroup, int jobId, String filterTime) {
@@ -95,6 +98,7 @@ public class JobLogController {
 	}
 
 	@RequestMapping("/logDetailPage")
+	@PermessionLimit(limit=false)
 	public String logDetailPage(int id, Model model){
 
 		// base check
@@ -114,6 +118,7 @@ public class JobLogController {
 
 	@RequestMapping("/logDetailCat")
 	@ResponseBody
+	@PermessionLimit(limit=false)
 	public ReturnT<LogResult> logDetailCat(String executorAddress, long triggerTime, int logId, int fromLineNum){
 		try {
 			ExecutorBiz executorBiz = (ExecutorBiz) new NetComClientProxy(ExecutorBiz.class, executorAddress).getObject();
@@ -171,7 +176,6 @@ public class JobLogController {
 	@RequestMapping("/clearLog")
 	@ResponseBody
 	public ReturnT<String> clearLog(int jobGroup, int jobId, int type){
-
 		Date clearBeforeTime = null;
 		int clearBeforeNum = 0;
 		if (type == 1) {
@@ -199,5 +203,4 @@ public class JobLogController {
 		xxlJobLogDao.clearLog(jobGroup, jobId, clearBeforeTime, clearBeforeNum);
 		return ReturnT.SUCCESS;
 	}
-
 }

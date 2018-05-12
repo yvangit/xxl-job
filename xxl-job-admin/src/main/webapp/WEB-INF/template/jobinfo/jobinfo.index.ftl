@@ -32,7 +32,7 @@
 	    <section class="content">
 	    
 	    	<div class="row">
-	    		<div class="col-xs-4">
+	    		<div class="col-xs-2">
 	              	<div class="input-group">
 	                	<span class="input-group-addon">执行器</span>
                 		<select class="form-control" id="jobGroup" >
@@ -42,10 +42,16 @@
 	                  	</select>
 	              	</div>
 	            </div>
-                <div class="col-xs-4">
+                <div class="col-xs-2">
                     <div class="input-group">
                         <span class="input-group-addon">JobHandler</span>
                         <input type="text" class="form-control" id="executorHandler" autocomplete="on" >
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="input-group">
+                        <span class="input-group-addon">描述</span>
+                        <input type="text" class="form-control" id="jobDesc" autocomplete="on" >
                     </div>
                 </div>
 	            <div class="col-xs-2">
@@ -71,14 +77,14 @@
                                         <th name="childJobKey" >JobKey</th>
 					                  	<th name="jobDesc" >描述</th>
                                         <th name="glueType" >运行模式</th>
-					                  	<th name="executorParam" >任务参数</th>
-                                        <th name="jobCron" >Cron</th>
-					                  	<th name="addTime" >新增时间</th>
-					                  	<th name="updateTime" >更新时间</th>
-					                  	<th name="author" >负责人</th>
-					                  	<th name="alarmEmail" >报警邮件</th>
-					                  	<th name="glueType" >运行模式</th>
-					                  	<th name="jobStatus" >状态</th>
+					                  	<th name="executorParam">任务参数</th>
+                                        <th name="jobCron">Cron</th>
+					                  	<th name="addTime">新增时间</th>
+					                  	<th name="updateTime">更新时间</th>
+					                  	<th name="author">负责人</th>
+					                  	<th name="alarmEmail">报警邮件</th>
+					                  	<th name="glueType">运行模式</th>
+					                  	<th name="jobStatus">状态</th>
 					                  	<th>操作</th>
 					                </tr>
 				                </thead>
@@ -115,7 +121,7 @@
 		                  	</select>
 						</div>
                         <label for="lastname" class="col-sm-2 control-label">任务描述<font color="red">*</font></label>
-                        <div class="col-sm-4"><input type="text" class="form-control" name="jobDesc" placeholder="请输入“描述”" maxlength="50" ></div>
+                        <div class="col-sm-4"><input type="text" class="form-control" name="jobDesc" placeholder="请输入“描述”" maxlength="150" ></div>
 					</div>
                     <div class="form-group">
                         <label for="firstname" class="col-sm-2 control-label">路由策略<font color="red">*</font></label>
@@ -127,7 +133,7 @@
                             </select>
                         </div>
                         <label for="lastname" class="col-sm-2 control-label">Cron<font color="red">*</font></label>
-                        <div class="col-sm-4"><input type="text" class="form-control" name="jobCron" placeholder="请输入“Cron”" maxlength="20" ></div>
+                        <div class="col-sm-4"><input type="text" class="form-control" name="jobCron" placeholder="请输入“Cron”" maxlength="30" ></div>
                     </div>
                     <div class="form-group">
                         <label for="firstname" class="col-sm-2 control-label">运行模式<font color="red">*</font></label>
@@ -259,7 +265,7 @@ logging.info("脚本文件：" + sys.argv[0])
                             </select>
                         </div>
                         <label for="lastname" class="col-sm-2 control-label">任务描述<font color="red">*</font></label>
-                        <div class="col-sm-4"><input type="text" class="form-control" name="jobDesc" placeholder="请输入“描述”" maxlength="50" ></div>
+                        <div class="col-sm-4"><input type="text" class="form-control" name="jobDesc" placeholder="请输入“描述”" maxlength="150" ></div>
                     </div>
                     <div class="form-group">
                         <label for="firstname" class="col-sm-2 control-label">路由策略<font color="red">*</font></label>
@@ -271,7 +277,7 @@ logging.info("脚本文件：" + sys.argv[0])
                             </select>
                         </div>
                         <label for="lastname" class="col-sm-2 control-label">Cron<font color="red">*</font></label>
-                        <div class="col-sm-4"><input type="text" class="form-control" name="jobCron" placeholder="请输入“Cron”" maxlength="20" ></div>
+                        <div class="col-sm-4"><input type="text" class="form-control" name="jobCron" placeholder="请输入“Cron”" maxlength="30" ></div>
                     </div>
                     <div class="form-group">
                         <label for="firstname" class="col-sm-2 control-label">运行模式<font color="red">*</font></label>
